@@ -144,26 +144,225 @@ SyntaxError: invalid syntax
 ___
 
 ### 02-2-3. 여러 줄인 문자열을 변수에 대입하고 싶을 때
+> Life is too short
+> 
+> You need python
+
+#### 1. 줄을 바꾸기 위한 이스케이프 코드 \n 삽입하기
+```python
+>>> multiline = "Life is too short\nYou need python"
+```
+* 읽기가 불편하고 줄이 길어지는 단점이 있음
+
+#### 2. 연속된 작은따옴표 3개 또는 큰따옴표 3개 사용하기
+* 작은따옴표 3개를 사용한 경우
+```python
+>>> multiline = '''
+... Life is too short
+... You need python
+... '''
+```
+
+* 큰따옴표 3개를 사용한 경우
+```python
+>>> multiline = """
+... Life is too short
+... You need python
+... """
+```
+
+* 이스케이프 코드란? 프로그래밍할 때 사용할 수 있도록 미리 정의해 둔 '문자 조합'
+코드 | 설명 
+----------------- | ------------------ 
+\n | 문자열 안에서 줄을 바꿀 때 사용
+\t | 문자열 사이에 탭 간격을 줄 때 사용
+\\ | \를 그대로 표현할 때 사용
+\' | 작은따옴표(')를 그대로 표현할 때 사용
+\" | 큰따옴표(")를 그대로 표현할 때 사용
+\r | 캐리지 리턴(줄 바꿈 문자, 커서를 현재 줄의 가장 앞으로 이동)
+\f | 폼 피드(줄 바꿈 문자, 커서를 현재 줄의 다음 줄로 이동)
+\a | 벨 소리(출력할 때 PC 스피커에서 '삑' 소리가 난다)
+\b | 백 스페이스
+\000 | 널 문자
 
 ___
 
 ### 02-2-4. 문자열 연산하기
+#### 문자열 더해서 연결하기
+```python
+>>> head = "Python"
+>>> tail = " is fun!"
+>>> head + tail
+'Python is fun!'
+```
+
+#### 문자열 곱하기
+```python
+>>> a = "python"
+>>> a * 2
+'pythonpython'
+```
+
+#### 문자열 길이 구하기
+* 문자열 길이는 len 함수를 사용하여 구할 수 있음
+* 문자열의 길이에는 공백 문자도 포함됨
+```python
+>>> a = "Python is too short"
+>>> len(a)
+17
+```
 
 ___
 
-### 02-2-5. 문자열 인덱싱과 슬라이딩
+### 02-2-5. 문자열 인덱싱(indexing)과 슬라이싱(slicing)
+#### 문자열 인덱싱
+```python
+>>> a = "Life is too short, You need Python"
+```
+* L은 첫 번쨰 자리를 뜻하는 숫자 0, 그 뒤로 번호가 붙음
 
+```python
+>>> a = "Life is too short, You need Python"
+>>> a[3]
+'e'
+```
+> a[0]:'L', a[1]:'i', a[2]:'f', a[3]:'e', a[4]:' ', ....
+
+#### 문자열 인덱싱 활용하기
+```python
+>>> a = "Life is too short, You need Python"
+>>> a[0]
+'L'
+>>> a[12]
+'s'
+>>> a[-1] /// -는 문자열 뒤에서부터!!
+'n'
+>>> a[-2]
+'o'
+>>> a[-5]
+'y'
+```
+
+#### 문자열 슬라이싱
+* 한 문자가 아닌 한 단어를 뽑아 내는 방법
+```python
+>>> a = "Life is too short, You need Python"
+>>> b = a[0] + a[1] + a[2] + a[3]
+>>> b
+'Life'
+
+================================================
+<슬라이싱 기법>
+>>> a = "Life is too short, You need Python"
+>>> a[0:4] // 0 <= a < 4
+'Life' 
+```
+* 슬라이싱 기법으로 a[시작_번호:끝_번호]를 지정할 때 끝 번호에 해당하는 문자는 포함하지 않음
+
+#### 문자열을 슬라이싱하는 방법
+* 슬라이실할 때 항상 시작 번호가 0일 필요는 없음
+```python
+>>> a[0:2]
+'Li'
+>>> a[5:7]
+'is'
+>>> a[12:17]
+'short
+```
+
+* a[시작_번호:끝_번호]에서 끝 번호 부분을 생략하면 시작 번호부터 그 문자열의 끝까지 뽑아냄
+```python
+>>> a[19:]
+'You need Python'
+```
+
+* a[시작 번호:끝 번호]에서 시작 번호를 생략하면 문자열의 처음부터 끝 번호까지 뽑아냄
+```python
+>>> a[:17]
+'Life is too short'
+```
+
+* a[시작 번호:끝 번호]에서 시작 번호와 끝 번호를 생략하면 문자열의 처음부터 끝까지 뽑아냄
+```python
+>>> a[:]
+'Life is too short, You need Python'
+```
+
+* 슬라이싱에서도 인덱싱과 마찬가지로 -(빼기) 기호를 사용할 수 있음
+```python
+>>> a[19:-7]
+'You need'
+```
+
+#### 슬라이싱으로 문자열 나누기
+```python
+>>> a = "20230331Rainy"
+>>> year = a[:4]
+>>> date = a[4:8]
+>>> weather = a[8:]
+>>> year
+'2023'
+>>> date
+'0331'
+>>> weather
+'Rainy'
+```
+* 문자열 중 특정 문자를 바꾸고 싶을 때
+```python
+>>> a = "Pithon"
+>>> a[:1]
+'P'
+>>> a[2:]
+'thon'
+>>> a[:1] + 'y' + a[2:]
+'Python'
+```
 ___
 
-### 02-2-6. 문자열 포매팅이란?
-
+### 02-2-6. 문자열 포매팅(String formatting)이란?
+* 문자열 안의 특정한 값을 바꿔야 하는 경우, 이것을 가능하게 해주는 것을 말함
+* 즉, 문자열 안에 어떤 값을 삽입하는 방법
 ___
 
 ### 02-2-7. 문자열 포매팅 따라 하기
+#### 1.  숫자 바로 대입
+```python
+>>> "I eat %d apples. % 3
+'I eat 3 apples.'
+```
 
+#### 2. 문자열 바로 대입
+```python
+>>> "I eat %s apples." % "five"
+'I eat five apples.'
+```
+
+#### 3. 숫자 값을 나타내는 변수로 대입
+```python
+>>> number = 3
+>>> "I eat %d apples." % number
+'I eat 3 apples.'
+```
+
+#### 4. 2개 이상의 값 넣기
+```python
+>>> number = 10
+>>> day = "three"
+>>> "I ate %d apples. so I was sick for %s days." % (number, day)
+'I ate 10 apples. so I was sick for three days.'
+```
 ___
 
 ### 02-2-8. 문자열 포맷 코드
+코드 | 설명 
+----------------- | ------------------ 
+%s | 문자열(string)
+%c | 문자 1개(character)
+%d | 정수(integer)
+%f | 부동소수(floating-point)
+%o | 8진수
+%x | 16진수
+%% | Literal %(문자 % 자체)
 
 ___
 
